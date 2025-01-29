@@ -6,13 +6,13 @@ import { z } from "zod";
 {{log endpoints}}
 
 {{#each schemas}}
-export const {{@key}}Schema = {{{this}}};
-export type {{@key}} = z.infer<typeof {{@key}}Schema>;
+export const {{@key}} = {{{this}}};
+export type {{@key}} = z.infer<typeof {{@key}}>;
 {{/each}}
 
 export const schemas = {
 {{#each schemas}}
-	{{@key}}Schema,
+	{{@key}},
 {{/each}}
 };
 
@@ -30,11 +30,11 @@ const endpoints = makeApi([
         name: "{{param.name}}",
         description: `{{param.description}}`,
         type: "{{param.type}}",
-        schema: {{param.schema}}Schema,
+        schema: {{param.schema}},
       },
       {{/each}}
     ],
-    response: {{response}}Schema,
+    response: {{response}},
     errors: [
       {
         status: 500,
