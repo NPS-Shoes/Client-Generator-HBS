@@ -6,11 +6,11 @@ import { z } from "zod";
 {{log endpoints}}
 
 {{#each schemas}}
-export const {{@key}} = {{{this}}};
+const {{@key}} = {{{this}}};
 export type {{@key}} = z.infer<typeof {{@key}}>;
 {{/each}}
 
-export const schemas = {
+const schemas = {
 {{#each schemas}}
 	{{@key}},
 {{/each}}
