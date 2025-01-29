@@ -1,0 +1,53 @@
+import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
+import { z } from "zod";
+
+{{!-- Debugging --}}
+{{log options}}
+{{log endpoints}}
+
+{{#each schemas}}
+export const {{@key}}Schema = {{{this}}};
+export type {{@key}} = z.infer<typeof {{@key}}Schema>;
+{{/each}}
+
+export const schemas = {
+{{#each schemas}}
+	{{@key}}Schema,
+{{/each}}
+};
+
+const endpoints = makeApi([
+  {{#each endpoints}}
+  {
+    method: "{{method}}",
+    path: "{{path}}",
+    alias: "{{alias}}",
+    description: `{{description}}`,
+    requestFormat: "json",
+    parameters: [
+      {{#each parameters as |param|}}
+      {
+        name: "{{param.name}}",
+        description: `{{param.description}}`,
+        type: "{{param.type}}",
+        schema: {{param.schema}}Schema,
+      },
+      {{/each}}
+    ],
+    response: {{response}}Schema,
+    errors: [
+      {
+        status: 500,
+        description: `Internal Server Error`,
+        schema: z.void(),
+      },
+    ],
+  },
+  {{/each}}
+]);
+
+export const {{options.apiClientName}} = new Zodios({{#if options.baseUrl}}"{{options.baseUrl}}", {{/if}}endpoints);
+
+export function createApiClient(baseUrl: string, options?: ZodiosOptions) {
+    return new Zodios(baseUrl, endpoints, options);
+}
