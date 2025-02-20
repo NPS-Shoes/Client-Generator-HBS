@@ -1,5 +1,6 @@
 import { makeApi, Zodios, type ZodiosOptions } from "@zodios/core";
 import { z } from "zod";
+import { Platform } from "react-native";
 
 {{!-- Debugging --}}
 {{log options}}
@@ -46,7 +47,7 @@ const endpoints = makeApi([
   {{/each}}
 ]);
 
-const BaseURL = Platform.OS !== "web" ? {{#if options.baseUrl}}"{{options.baseUrl}}" {{/if}}; : window.location.origin;
+const BaseURL = Platform.OS !== "web" ? {{#if options.baseUrl}}"{{options.baseUrl}}" {{/if}} : window.location.origin;
 
 export const {{options.apiClientName}} = new Zodios({{#if options.baseUrl}}"{{options.baseUrl}}", {{/if}}endpoints);
 
