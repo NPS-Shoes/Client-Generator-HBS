@@ -47,9 +47,16 @@ const endpoints = makeApi([
   {{/each}}
 ]);
 
-const BaseURL = Platform.OS !== "web" ? {{#if options.baseUrl}}"{{options.baseUrl}}" {{/if}} : window.location.origin;
 
-export const {{options.apiClientName}} = new Zodios(BaseURL, endpoints);
+function CreateBaseURL() {
+  if (Platform.OS === "web" && !window.location.origin.includes("localhost")) {
+    return window.location.origin;
+  } else {
+    return {{#if options.baseUrl}}"{{options.baseUrl}}" {{/if}};
+  }
+}
+
+export const NPSAuthApi = new Zodios(CreateBaseURL(), endpoints);
 
 export function createApiClient(baseUrl: string, options?: ZodiosOptions) {
     return new Zodios(baseUrl, endpoints, options);
