@@ -56,7 +56,7 @@ function CreateBaseURL() {
   }
 }
 
-export const NPSAuthApi = new Zodios(CreateBaseURL(), endpoints);
+export const {{#if options.name}}{{options.name}}{{else}}Api{{/if}} = new Zodios(CreateBaseURL(), endpoints);
 
 export function createApiClient(baseUrl: string, options?: ZodiosOptions) {
     return new Zodios(baseUrl, endpoints, options);
