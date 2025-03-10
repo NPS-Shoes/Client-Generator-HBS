@@ -55,6 +55,11 @@ function CreateBaseURL() {
     return {{#if options.baseUrl}}"{{options.baseUrl}}" {{/if}};
   }
 }
+export let AuthToken = "Token Not Added";
+
+export function setAuthToken(token: string) {
+  AuthToken = token;
+}
 
 export const {{options.apiClientName}} = new Zodios(CreateBaseURL(), endpoints);
 
