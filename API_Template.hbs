@@ -58,6 +58,14 @@ function CreateBaseURL() {
 
 export const {{options.apiClientName}} = new Zodios(CreateBaseURL(), endpoints);
 
+// Add an Axios interceptor to dynamically set the Authorization header
+{{options.apiClientName}}.axios.interceptors.request.use((config) => {
+  if (AuthToken && AuthToken !== "Token Not Added") {
+    config.headers.Authorization = `Bearer ${AuthToken}`;
+  }
+  return config;
+});
+
 export function createApiClient(baseUrl: string, options?: ZodiosOptions) {
     return new Zodios(baseUrl, endpoints, options);
 }
